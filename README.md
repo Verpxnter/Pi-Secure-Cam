@@ -31,7 +31,7 @@ Here’s how to get **Pi-Secure-Cam** up and running:
 Clone this repository to your Raspberry Pi:
 
 ```bash
-git clone https://github.com/YourUsername/Pi-Secure-Cam.git
+git clone https://github.com/verpxnter/Pi-Secure-Cam.git
 cd Pi-Secure-Cam
 ```
 
