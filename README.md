@@ -6,7 +6,7 @@ Welcome to **Pi-Secure-Cam** — a simple, Raspberry Pi-powered security camera 
 
 **Pi-Secure-Cam** is a Python script that allows you to connect multiple USB cameras to your Raspberry Pi and view their live feeds on a customizable web dashboard. It also features motion detection to keep you updated when something unusual happens and sends notifications directly to your Discord channel.
 
-Whether you're setting this up to monitor your home, office, or just want to try out some fun surveillance tech, **Pi-Secure-Cam** is easy to set up and works great on **Raspberry Pi 4**.
+Whether you're setting this up to monitor your home, office, or just want to try out some fun surveillance tech, **Pi-Secure-Cam** is easy to set up and was tested on a **Raspberry Pi 4**.
 
 ## 2. Features
 
