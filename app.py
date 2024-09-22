@@ -8,10 +8,10 @@ import json
 app = Flask(__name__)
 
 cap = cv2.VideoCapture(0)
-cap2 = cv2.VideoCapture(2)
+# cap2 = cv2.VideoCapture(2)
 
 backSub = cv2.createBackgroundSubtractorMOG2()
-backSub2 = cv2.createBackgroundSubtractorMOG2()
+# backSub2 = cv2.createBackgroundSubtractorMOG2()
 
 SETTINGS_FILE = 'settings.json'
 
@@ -53,24 +53,24 @@ def detect_motion():
         elif count < motion_threshold and motion_detected:
             motion_detected = False
 
-def detect_motion2():
-    global last_notification_time
-    motion_detected = False
-    settings = load_settings()  
-    motion_threshold = settings['motion_threshold']
+# def detect_motion2():
+#     global last_notification_time
+#     motion_detected = False
+#     settings = load_settings()  
+#     motion_threshold = settings['motion_threshold']
 
-    while True:
-        ret, frame = cap2.read()
-        if not ret:
-            break
-        fgMask = backSub2.apply(frame)
-        count = cv2.countNonZero(fgMask)
-        if count > motion_threshold and not motion_detected:
-            motion_detected = True
-            current_time = time.time()
-            send_discord_notification("```Motion in cam 2```")
-        elif count < motion_threshold and motion_detected:
-            motion_detected = False
+#     while True:
+#         ret, frame = cap2.read()
+#         if not ret:
+#             break
+#         fgMask = backSub2.apply(frame)
+#         count = cv2.countNonZero(fgMask)
+#         if count > motion_threshold and not motion_detected:
+#             motion_detected = True
+#             current_time = time.time()
+#             send_discord_notification("```Motion in cam 2```")
+#         elif count < motion_threshold and motion_detected:
+#             motion_detected = False
 
 def send_discord_notification(message):
     webhook_url = "https://discord.com/api/webhooks/<UR_WEBHOOK_URL>"
@@ -88,9 +88,9 @@ def index():
 def video_feed():
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/video_feed_2')
-def video_feed_2():
-    return Response(gen2(), mimetype='multipart/x-mixed-replace; boundary=frame')
+# @app.route('/video_feed_2')
+# def video_feed_2():
+#     return Response(gen2(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/save_settings', methods=['POST'])
 def save_settings_route():
@@ -121,25 +121,25 @@ def gen():
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + img_encoded.tobytes() + b'\r\n')
 
-def gen2():
-    settings = load_settings()
+# def gen2():
+#     settings = load_settings()
 
-    while True:
-        ret, frame = cap2.read()
-        if not ret:
-            break
+#     while True:
+#         ret, frame = cap2.read()
+#         if not ret:
+#             break
 
-        if settings['color_mode'] == 'black_white':
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+#         if settings['color_mode'] == 'black_white':
+#             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     
 
-        _, img_encoded = cv2.imencode('.jpg', frame)
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + img_encoded.tobytes() + b'\r\n')
+#         _, img_encoded = cv2.imencode('.jpg', frame)
+#         yield (b'--frame\r\n'
+#                b'Content-Type: image/jpeg\r\n\r\n' + img_encoded.tobytes() + b'\r\n')
 
 if __name__ == '__main__':
     t1 = threading.Thread(target=detect_motion)
-    t2 = threading.Thread(target=detect_motion2)
+    # t2 = threading.Thread(target=detect_motion2)
     t1.start()
-    t2.start()
+    # t2.start()
     app.run(host='0.0.0.0', port=5000)
