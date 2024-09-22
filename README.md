@@ -52,7 +52,7 @@ python app.py
 Once the application is running, you can view the live feed in your browser:
 
 ```bash
-[python app.py](http://<your-pi-ip>:5000/)
+http://<your-pi-ip>:5000/
 ```
 Here, you'll see the live feeds from your connected cameras.
 
