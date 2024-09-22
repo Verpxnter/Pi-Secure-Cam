@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Camera Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #333;
+            color: #fff;
+        }
+
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .frame {
+            border: 1px solid #444;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        img {
+            filter: brightness(0.8);
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .settings-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .settings-btn:hover {
+            background-color: #666;
+            transform: rotate(90deg);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-content {
+            background-color: #222;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #444;
+            width: 80%;
+            max-width: 500px;
+            color: white;
+        }
+
+        .modal h2 {
+            text-align: center;
+        }
+
+        .modal label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .modal input[type="number"],
+        .modal select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #666;
+            background-color: #444;
+            color: white;
+        }
+
+        .modal button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #666;
+            color: white;
+            cursor: pointer;
+        }
+
+        .modal button:hover {
+            background-color: #888;
+        }
+
+        .close {
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <div class="frame">
+            <img src="{{ url_for('video_feed') }}" alt="Camera Feed 1" />
+        </div>
+        <div class="frame">
+            <img src="{{ url_for('video_feed_2') }}" alt="Camera Feed 2" />
+        </div>
+    </main>
+
+    <button class="settings-btn" id="settingsBtn">⚙️</button>
+
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Camera Settings</h2>
+            <form id="settingsForm" action="/save_settings" method="post">
+                <label for="color_mode">Color Mode:</label>
+                <select id="color_mode" name="color_mode">
+                    <option value="black_white" {% if settings.color_mode == 'black_white' %}selected{% endif %}>Black & White</option>
+                    <option value="colorful" {% if settings.color_mode == 'colorful' %}selected{% endif %}>Colorful</option>
+                </select>
+
+                <label for="motion_threshold">Motion Detection Sensitivity (Threshold):</label>
+                <input type="number" id="motion_threshold" name="motion_threshold" value="{{ settings.motion_threshold }}">
+
+                <button type="submit">Save Settings</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var modal = document.getElementById("settingsModal");
+        var btn = document.getElementById("settingsBtn");
+        var closeBtn = document.getElementById("closeModal");
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
