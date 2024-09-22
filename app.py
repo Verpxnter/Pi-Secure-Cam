@@ -73,7 +73,7 @@ def detect_motion2():
             motion_detected = False
 
 def send_discord_notification(message):
-    webhook_url = "https://discord.com/api/webhooks/1287363128363061344/pECbOiLwzpP930gvpxJ5wXLeTTDxurpgwe3SO9-lCrl0XcecQ4jQolaQdy3Vp4iwmo-7"
+    webhook_url = "https://discord.com/api/webhooks/<UR_WEBHOOK_URL>"
     data = {"content": message}
     response = requests.post(webhook_url, json=data)
     if response.status_code != 204:
